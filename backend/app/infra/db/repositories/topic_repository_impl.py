@@ -7,12 +7,13 @@ from app.application.protocols.topic_repository import TopicRepository
 
 
 class TopicRepositoryImpl(TopicRepository):
+    
     def __init__(self, db_session: AsyncSession):
         self._db: AsyncSession = db_session
 
     async def create(self, topic: DomainTopic) -> DomainTopic:
         """This method creates a new topic and persists it in the database.
-        
+
         Args:
             topic (DomainTopic): A DomainTopic object containing the topic details.
         Returns:
@@ -35,9 +36,9 @@ class TopicRepositoryImpl(TopicRepository):
             list[DomainTopic]: A list of DomainTopic entities representing all topics in the database.
         """
 
-        orm_topic = await self._db.execute(
+        result = await self._db.execute(
             select(ORMTopic).order_by(ORMTopic.id.desc())
         )
-        orm_topic = orm_topic.scalars().all()
+        orm_topic = result.scalars().all()
 
         return [orm_session.to_domain() for orm_session in orm_topic]
