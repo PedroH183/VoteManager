@@ -8,11 +8,13 @@ from app.api.routers.session_router import router as session_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup: criar tabelas e abrir conexões
+    import app.infra.db.models.session_model # type: ignore  # noqa: F401
+    import app.infra.db.models.topic_model   # type: ignore  # noqa: F401
+    
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     yield
-    # Shutdown: fechar engine
+
     await engine.dispose()
 
 app = FastAPI(
