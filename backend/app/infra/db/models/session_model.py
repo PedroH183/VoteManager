@@ -17,24 +17,34 @@ class Session(Base):
     start_time: Mapped[datetime] = mapped_column(
         DateTime, default=datetime.now, nullable=False
     )
-    topic_id: Mapped[int] = mapped_column(ForeignKey("topics.id"), nullable=False)
+    topic_id: Mapped[int] = mapped_column(
+        ForeignKey("topics.id", ondelete="cascade"), nullable=False
+    )
     topic = relationship("Topic", back_populates="session")
 
     def to_dict(self) -> dict:
-        """Returning a dictionary representation of the session"""
+        """This method converts the ORM model to a dictionary representation.
+
+        Returns:
+            dict: A dictionary containing the session's id, start time, end time, topic id, and duration in minutes.
+        """
         return {
             "id": self.id,
             "start_time": self.start_time,
-            "end_time": self.end_time,
-            "topic_id": self.topic_id,
-            "durantion_time": (self.end_time - self.start_time).total_seconds() / 60 # type: ignore
+            "end_time": self.end_time, 
+            "topic_id": self.topic_id, 
+            "durantion_time": (self.end_time - self.start_time).total_seconds() / 60,  # type: ignore
         }
 
-    def to_session(self) -> DomainSession:
-        """Returning a session object from the ORM model"""
+    def to_domain(self) -> DomainSession:
+        """This method converts the ORM model to a domain entity.
+
+        Returns:
+            DomainSession: An instance of DomainSession representing the session.
+        """
         return DomainSession(
             id_=self.id,
             start_time=self.start_time,
             topic_id=self.topic_id,
-            duration_minutes=(self.end_time - self.start_time).total_seconds() / 60 # type: ignore
+            duration_minutes=(self.end_time - self.start_time).total_seconds() / 60,  # type: ignore
         )
