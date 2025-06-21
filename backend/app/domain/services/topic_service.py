@@ -1,8 +1,6 @@
 from app.domain.entities.topics_entity import Topic as DomainTopic
 from app.application.protocols.topic_repository import TopicRepository
 
-from sqlalchemy.ext.asyncio import AsyncSession
-
 
 class TopicService:
     """Topic service to manage topic-related operations."""
@@ -10,7 +8,7 @@ class TopicService:
     def __init__(self, repo: TopicRepository):
         self._repo = repo
 
-    async def create(self, topic: DomainTopic, db_session: AsyncSession) -> DomainTopic:
+    async def create(self, topic: DomainTopic) -> DomainTopic:
         """This method creates a new topic and persists it in the database.
 
         Args:
@@ -22,9 +20,9 @@ class TopicService:
         """
 
         domain_topic = DomainTopic(title=topic.title)
-        return await self._repo.create(domain_topic, db_session)
+        return await self._repo.create(domain_topic)
 
-    async def list(self, db_session: AsyncSession) -> list[DomainTopic]:
+    async def list(self) -> list[DomainTopic]:
         """This method retrieves all topics from the database.
 
         Args:
@@ -33,4 +31,4 @@ class TopicService:
         Returns:
             list[DomainTopic]: A list of DomainTopic entities representing all topics in the database.
         """
-        return await self._repo.list(db_session)
+        return await self._repo.list()
