@@ -16,8 +16,7 @@ router = APIRouter(prefix="/topics", tags=["Topics"])
 # TODO ADD USER DEPENDENCY IN create_topic
 @router.post("", response_model=TopicResponseDTO, status_code=status.HTTP_201_CREATED)
 async def create_topic(
-    payload: TopicCreateDTO,
-    db: AsyncSession = Depends(get_db),
+    payload: TopicCreateDTO, db: AsyncSession = Depends(get_db),
 ):
     """
     This endpoint allows the creation of a new topic that can be used in a voting session.
@@ -35,11 +34,11 @@ async def create_topic(
     domain_session = DomainTopic(
         title=payload.title,
     )
-    created = await service.create(domain_session, db)
+    created = await service.create(domain_session)
     return TopicResponseDTO.from_domain(created)
 
 
-@router.post("", response_model=List[TopicResponseDTO], status_code=status.HTTP_200_OK)
+@router.get("", response_model=List[TopicResponseDTO], status_code=status.HTTP_200_OK)
 async def list_topics(db: AsyncSession = Depends(get_db)):
     """
     This endpoint retrieves a list of all topics available in the system.
@@ -50,4 +49,4 @@ async def list_topics(db: AsyncSession = Depends(get_db)):
     Returns:
         List[TopicResponseDTO]: A list of topics available in the system.
     """
-    return await TopicService(TopicRepositoryImpl(db)).list(db)
+    return await TopicService(TopicRepositoryImpl(db)).list()
