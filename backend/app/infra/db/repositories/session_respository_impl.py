@@ -29,5 +29,5 @@ class SessionRepositoryImpl(SessionRepository):
         await self._db.commit()
         await self._db.refresh(orm_obj)
 
-        return orm_obj.to_session()
+        return orm_obj.to_domain()
 
