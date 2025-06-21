@@ -11,7 +11,14 @@ class SessionRepositoryImpl(SessionRepository):
         self._db: AsyncSession = db_session
 
     async def create(self, session: DomainSession) -> DomainSession:
-        """ Creating a new session and returning the created entity. """
+        """This method creates a new session for a specific topic and persists it in the database.
+
+        Args:
+            session (DomainSession): A DomainSession object containing the session details.
+
+        Returns:
+            DomainSession: The created session entity persisted in the database.
+        """
 
         orm_obj = ORMSession(
             topic_id  = session.topic_id,

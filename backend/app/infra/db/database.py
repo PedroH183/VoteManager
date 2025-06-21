@@ -24,10 +24,13 @@ AsyncSessionLocal = async_sessionmaker(
 
 
 async def init_db() -> None:
+    """Initialize the database by creating all tables."""
+
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
 
 async def get_db() -> AsyncSession:
+    """Get a database session for dependency injection."""
     async with AsyncSessionLocal() as session:
         yield session

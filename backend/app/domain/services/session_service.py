@@ -13,7 +13,15 @@ class SessionService:
     async def open_session(
         self, session: DomainSession, db_session: AsyncSession
     ) -> DomainSession:
-        """Opens a new voting session for a topic."""
+        """This method creates a new session for a specific topic and persists it in the database.
+
+        Args:
+            session (DomainSession): A DomainSession object containing the session details.
+            db_session (AsyncSession): An asynchronous database session for database operations.
+
+        Returns:
+            DomainSession: The created session entity persisted in the database.
+        """
 
         domain_sess = DomainSession(
             session.topic_id, duration_minutes=session.duration_time

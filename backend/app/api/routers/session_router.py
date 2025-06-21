@@ -19,6 +19,15 @@ async def open_session(
     payload: SessionCreateDTO,
     db: AsyncSession = Depends(get_db),
 ):
+    """This endpoint allows the creation of a new session for a specific topic.
+
+    Args:
+        topic_id (int): The ID of the topic for which the session is being created.
+        payload (SessionCreateDTO): The data containing the session details
+
+    Returns:
+        SessionResponseDTO: A response containing the details of the created session.
+    """
     repo: SessionRepository = SessionRepositoryImpl(db)
     service = SessionService(repo)
 

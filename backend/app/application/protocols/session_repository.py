@@ -9,9 +9,17 @@ class SessionRepository(Protocol):
     async def create(
         self, session: DomainSession, db_session: AsyncSession
     ) -> DomainSession:
-        """Persiste uma nova sessão e retorna a entidade criada."""
+        """This method creates a new session and persists it in the database.
+
+        Args:
+            session (DomainSession): A DomainSession object containing the session details.
+            db_session (AsyncSession): An active database session for executing the operation.
+
+        Returns:
+            DomainSession: The created session entity persisted in the database.
+        """
         
         from app.infra.db.repositories.session_respository_impl import SessionRepositoryImpl
 
-        _session_repository: SessionRepositoryImpl = SessionRepositoryImpl(db_session)
+        _session_repository: "SessionRepository" = SessionRepositoryImpl(db_session)
         return await _session_repository.create(session)
