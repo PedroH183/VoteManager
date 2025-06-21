@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.infra.db.database import Base, engine
 from app.api.routers.session_router import router as session_router
+from app.api.routers.topic_router import router as topic_router
 
 
 @asynccontextmanager
@@ -34,6 +35,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.include_router(session_router)
+app.include_router(topic_router)
 # uvicorn main:app --reload --host 0.0.0.0 --port 8000
 
 
