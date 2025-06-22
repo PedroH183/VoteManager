@@ -2,6 +2,9 @@ Validações no Pydantic (VoteSchemas)
   - O ideal seria não depender de uma opção hard-coded e
     sim um regex pattern ou algo similar para aumentar a 
     robustez da validação.
+    - Isso se aplica para 
+      - o cpf -> atualmente estou validando como uma string
+      - Enum Sim ou Não na votação ! 
 
 Criação de handlers de Exceptions para ValuesErros
   - Poderia haver uma dependencia que verifica se o item 
