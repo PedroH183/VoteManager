@@ -32,3 +32,14 @@ class TopicService:
             list[DomainTopic]: A list of DomainTopic entities representing all topics in the database.
         """
         return await self._repo.list()
+    
+    async def get(self, topic_id: int) -> DomainTopic:
+        """This method retrieves a topic by its ID.
+
+        Args:
+            topic_id (int): The ID of the topic to retrieve.
+
+        Returns:
+            DomainTopic: The topic entity with the specified ID.
+        """
+        return await self._repo.get(topic_id)

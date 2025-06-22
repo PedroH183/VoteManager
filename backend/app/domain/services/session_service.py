@@ -23,3 +23,14 @@ class SessionService:
             session.topic_id, duration_minutes=session.duration_time
         )
         return await self._repo.create(domain_sess)
+
+    async def get_by_id(self, session_id: int) -> DomainSession:
+        """This method retrieves a session by its ID.
+
+        Args:
+            session_id (int): The ID of the session to retrieve.
+
+        Returns:
+            DomainSession: The session entity if found, otherwise raises ValueError.
+        """
+        return await self._repo.get_by_id(session_id)

@@ -33,3 +33,14 @@ class UserService:
             DomainUser | None: The user entity if found, otherwise None.
         """
         return await self._repo.get_by_cpf(cpf)
+    
+    async def get_by_id(self, user_id: int) -> Optional[DomainUser]:
+        """This method retrives a user by their ID
+
+        Args:
+            user_id (int): The ID of the user to retrive
+
+        Returns:
+            Optional[DomainUser]: The user entity if found
+        """
+        return await self._repo.get_by_id(user_id)

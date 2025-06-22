@@ -18,10 +18,16 @@ class VoteService:
         Returns:
             DomainVote: The created vote entity persisted in the database.
         """
-        # TODO: VALIDATE IF TOPIC EXISTS
-        # TODO: VALIDATE IF USER ALREADY VOTED ON THIS TOPIC
-        # TODO; VALIDATE IF SESSION IS ACTIVE
-
-
         return await self._repo.vote(vote)
 
+    async def get_by_user_and_session(self, user_id: int, session_id: int) -> DomainVote | None:
+        """This method retrieves a vote by user ID and session ID.
+
+        Args:
+            user_id (int): The ID of the user who cast the vote.
+            session_id (int): The ID of the session in which the vote was cast.
+
+        Returns:
+            DomainVote | None: The vote entity if found, otherwise None.
+        """
+        return await self._repo.get_by_user_and_session(user_id, session_id)
