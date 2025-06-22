@@ -4,7 +4,8 @@ from fastapi import APIRouter, Depends, HTTPException, status
 
 from app.api.deps_auth import get_current_user
 from app.api.deps_auth import get_user_service
-from app.api.schemas.users_schemas import Token, User
+from app.api.schemas.users_schemas import Token, User, UserCreate, UserResponse
+
 from app.domain.services.user_service import UserService
 from app.domain.entities.user_entity import User as UserDomain
 from app.infra.auth.jwt_functions import create_access_token, authenticate_user
@@ -21,9 +22,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
     summary="Authenticate user and issue token",
     description="Authenticate a user using CPF (username) and password, returning a JWT access token for subsequent requests.",
     response_model=Token,
-    responses={
-        401: {"description": "Incorrect username or password"}
-    }
+    responses={401: {"description": "Incorrect username or password"}},
 )
 async def login_for_access_token(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
@@ -31,9 +30,13 @@ async def login_for_access_token(
 ):
     """This endpoint is used to authenticate a user and return an access token."""
 
-    user = await authenticate_user(form_data.username, form_data.password, user_service)
-
-    if not user:
+    try:
+        user = await authenticate_user(
+            form_data.username, form_data.password, user_service
+        )
+        if user is None:
+            raise ValueError("Invalid credentials")
+    except ValueError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
@@ -42,7 +45,8 @@ async def login_for_access_token(
 
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": user.cpf}, expires_delta=access_token_expires
+        data={"sub": user.cpf}, # type: ignore
+        expires_delta=access_token_expires,  # type: ignore
     )
     return Token(access_token=access_token, token_type="bearer")
 
@@ -51,18 +55,20 @@ async def login_for_access_token(
     "/register",
     summary="Register new user",
     description="Register a new user in the system. Returns the created user (without password).",
-    response_model=User,
+    response_model=UserResponse,
     status_code=status.HTTP_201_CREATED,
-    responses={
-        400: {"description": "User with this CPF already exists"}
-    }
+    responses={400: {"description": "User with this CPF already exists"}},
 )
 async def register_user(
-    user: User,
+    user: UserCreate,
     user_service: UserService = Depends(get_user_service),
 ):
     """This endpoint allows the registration of a new user in the system."""
-    existing_user = await user_service.get_by_cpf(user.cpf)
+    try:
+        existing_user = await user_service.get_by_cpf(user.cpf)
+    except ValueError:
+        existing_user = None
+
     if existing_user:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -74,23 +80,20 @@ async def register_user(
         name=user.name,
         password=user.password,
     )
-
     created_user = await user_service.create(user_entity)
-    return created_user
+    return UserResponse.from_domain(created_user)
 
 
 @router.get(
     "/users/me",
     summary="Get current authenticated user",
     description="Retrieve the profile of the currently authenticated user.",
-    response_model=User,
-    responses={
-        401: {"description": "Unauthorized: invalid or missing token"}
-    }
+    response_model=UserResponse,
+    responses={401: {"description": "Unauthorized: invalid or missing token"}},
 )
 async def read_users_me(
-    current_user: User = Depends(get_current_user),
+    current_user: UserDomain = Depends(get_current_user),
 ):
     """This endpoint retrieves the current authenticated user."""
 
-    return current_user
+    return UserResponse.from_domain(current_user)
