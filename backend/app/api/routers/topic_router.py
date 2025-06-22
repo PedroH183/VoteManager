@@ -1,6 +1,7 @@
 from typing import List
 from fastapi import APIRouter, Depends, status
 
+from app.api.deps_auth import get_current_user
 from app.domain.services.topic_service import TopicService
 from app.api.schemas.topic_schemas import TopicCreateDTO, TopicResponseDTO
 from app.domain.entities.topics_entity import Topic as DomainTopic
@@ -11,8 +12,18 @@ from app.api.deps import get_topic_service
 router = APIRouter(prefix="/topics", tags=["Topics"])
 
 
-# TODO ADD USER DEPENDENCY IN create_topic
-@router.post("", response_model=TopicResponseDTO, status_code=status.HTTP_201_CREATED)
+@router.post(
+    "",
+    summary="Create a new topic",
+    description="Allows an authenticated user to create a new voting topic in the system.",
+    response_model=TopicResponseDTO,
+    status_code=status.HTTP_201_CREATED,
+    dependencies=[Depends(get_current_user)],
+    responses={
+        400: {"description": "Bad Request: invalid payload"},
+        401: {"description": "Unauthorized: missing or invalid token"}
+    }
+)
 async def create_topic(
     payload: TopicCreateDTO, 
     topic_service: TopicService = Depends(get_topic_service),
@@ -35,7 +46,13 @@ async def create_topic(
     return TopicResponseDTO.from_domain(created)
 
 
-@router.get("", response_model=List[TopicResponseDTO], status_code=status.HTTP_200_OK)
+@router.get(
+    "",
+    summary="List all topics",
+    description="Retrieve a list of all voting topics available in the system.",
+    response_model=List[TopicResponseDTO],
+    status_code=status.HTTP_200_OK
+)
 async def list_topics(topic_service: TopicService = Depends(get_topic_service)):
     """
     This endpoint retrieves a list of all topics available in the system.
