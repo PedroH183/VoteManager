@@ -34,3 +34,8 @@ class SessionService:
             DomainSession: The session entity if found, otherwise raises ValueError.
         """
         return await self._repo.get_by_id(session_id)
+
+    async def get_by_topic_id(self, topic_id: int) -> DomainSession:
+        """Retrieve a session associated with a given topic."""
+
+        return await self._repo.get_by_topic_id(topic_id)

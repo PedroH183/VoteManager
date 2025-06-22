@@ -51,3 +51,18 @@ class VoteRepositoryImpl(VoteRepository):
         )
         orm_obj = result.scalars().first()
         return orm_obj.to_domain() if orm_obj else None
+
+    async def count_by_session(self, session_id: int) -> dict[str, int]:
+        """Return a count of votes grouped by option for a session."""
+
+        from sqlalchemy import func  # imported here to avoid unused error
+
+        result = await self._db.execute(
+            select(ORMVote.option, func.count(ORMVote.id))
+            .where(ORMVote.session_id == session_id)
+            .group_by(ORMVote.option)
+        )
+
+        rows = result.all()
+        counts: dict[str, int] = {option.value if hasattr(option, "value") else option: count for option, count in rows}
+        return counts

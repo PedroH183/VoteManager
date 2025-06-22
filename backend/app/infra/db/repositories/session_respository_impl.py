@@ -48,3 +48,17 @@ class SessionRepositoryImpl(SessionRepository):
         if not orm_user:
             raise ValueError(f"Session with id {session_id} not found")
         return orm_user.to_domain()
+
+    async def get_by_topic_id(self, topic_id: int) -> DomainSession:
+        """Retrieve the latest session associated with a topic."""
+
+        result = await self._db.execute(
+            select(ORMSession)
+            .where(ORMSession.topic_id == topic_id)
+            .order_by(ORMSession.id.desc())
+            .limit(1)
+        )
+        orm_session = result.scalars().first()
+        if not orm_session:
+            raise ValueError(f"Session for topic {topic_id} not found")
+        return orm_session.to_domain()
