@@ -21,25 +21,12 @@ class Vote(Base):
         Enum(VoteOption), name="vote_option", nullable=False
     )
 
-    # user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
-    # user = relationship("User", back_populates="votes")
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    user = relationship("User", back_populates="votes")
 
     session_id: Mapped[int] = mapped_column(ForeignKey("sessions.id"))
     session = relationship("Session", back_populates="votes")
 
-    def to_dict(self) -> dict:
-        """Converts the ORM model to a dictionary representation.
-
-        Returns:
-            dict: A dictionary containing the vote's id, user_id, topic_id, and option.
-        """
-        return {
-            "id": self.id,
-            # "user_id": self.user_id,
-            "option": self.option.value,
-            "session_id": self.session_id,
-        }
-    
     def to_domain(self) -> VoteEntity:
         """Converts the ORM model to a domain entity.
 
@@ -48,7 +35,7 @@ class Vote(Base):
         """
         return VoteEntity(
             id_=self.id,
+            user_id=self.user_id,
             option=self.option.value,
-            session_id=self.session_id
+            session_id=self.session_id,
         )
-

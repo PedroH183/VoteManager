@@ -27,20 +27,6 @@ class Session(Base):
         "Vote", back_populates="session", cascade="all, delete-orphan"
     )
 
-    def to_dict(self) -> dict:
-        """This method converts the ORM model to a dictionary representation.
-
-        Returns:
-            dict: A dictionary containing the session's id, start time, end time, topic id, and duration in minutes.
-        """
-        return {
-            "id": self.id,
-            "start_time": self.start_time,
-            "end_time": self.end_time, 
-            "topic_id": self.topic_id, 
-            "durantion_time": (self.end_time - self.start_time).total_seconds() / 60,  # type: ignore
-        }
-
     def to_domain(self) -> DomainSession:
         """This method converts the ORM model to a domain entity.
 
