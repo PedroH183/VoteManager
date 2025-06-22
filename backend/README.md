@@ -42,7 +42,7 @@ This project follows Clean Architecture principles with clear separation of conc
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/PedroH183/VoteManager/tree/feat-sessions
+git clone https://github.com/PedroH183/VoteManager
 cd VoteManager/backend
 ```
 
