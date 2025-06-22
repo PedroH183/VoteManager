@@ -45,4 +45,24 @@ class UserRepositoryImpl(UserRepository):
         result = await self._db.execute(select(ORMUser).where(ORMUser.cpf == cpf))
         orm_user = result.scalars().first()
 
+        if orm_user is None:
+            raise ValueError(f"User with cpf {cpf} not found")
+
+        return orm_user.to_domain()
+
+    async def get_by_id(self, user_id: int) -> Optional[DomainUser]:
+        """This method retrieves a user by their ID from the database.
+
+        Args:
+            user_id (int): The ID of the user to retrieve.
+
+        Returns:
+            Optional[DomainUser]: The user entity if found, otherwise None.
+        """
+        result = await self._db.execute(select(ORMUser).where(ORMUser.id == user_id))
+        orm_user = result.scalars().first()
+
+        if orm_user is None:
+            raise ValueError(f"User with id {user_id} not found")
+
         return orm_user.to_domain() if orm_user else None

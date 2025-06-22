@@ -7,7 +7,6 @@ from app.application.protocols.topic_repository import TopicRepository
 
 
 class TopicRepositoryImpl(TopicRepository):
-    
     def __init__(self, db_session: AsyncSession):
         self._db: AsyncSession = db_session
 
@@ -36,9 +35,25 @@ class TopicRepositoryImpl(TopicRepository):
             list[DomainTopic]: A list of DomainTopic entities representing all topics in the database.
         """
 
-        result = await self._db.execute(
-            select(ORMTopic).order_by(ORMTopic.id.desc())
-        )
+        result = await self._db.execute(select(ORMTopic).order_by(ORMTopic.id.desc()))
         orm_topic = result.scalars().all()
 
         return [orm_session.to_domain() for orm_session in orm_topic]
+    
+
+    async def get(self, topic_id: int) -> DomainTopic:
+        """This method retrieves a topic by its ID.
+
+        Args:
+            topic_id (int): The ID of the topic to retrieve.
+
+        Returns:
+            DomainTopic: The topic entity with the specified ID.
+        """
+        result = await self._db.execute(select(ORMTopic).where(ORMTopic.id == topic_id))
+        orm_topic = result.scalar_one_or_none()
+
+        if orm_topic is None:
+            raise ValueError(f"Topic with id {topic_id} not found")
+
+        return orm_topic.to_domain()
