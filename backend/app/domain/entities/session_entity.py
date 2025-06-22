@@ -8,12 +8,12 @@ class Session:
         topic_id: int,
         id_: Optional[int] = None,
         start_time: Optional[datetime] = None,
-        duration_minutes: Optional[int] = 1,
+        duration_minutes: int = 1,
     ):
-        self.id = id_ or None
+        self.id       = id_
         self.topic_id = topic_id
         self.start_time = start_time or datetime.now()
-        self.end_time = self.start_time + timedelta(minutes=(duration_minutes or 1))
+        self.end_time   = self.start_time + timedelta(minutes=duration_minutes)
 
     @property
     def is_open(self) -> bool:
@@ -29,3 +29,13 @@ class Session:
     def duration_time(self) -> int:
         """Retorna a duração da sessão em minutos."""
         return int((self.end_time - self.start_time).total_seconds() / 60)
+    
+    @property
+    def start_time_str(self) -> str:
+        """Retorna a hora de início da sessão como string."""
+        return self.start_time.strftime("%Y-%m-%d %H:%M:%S")
+
+    @property
+    def end_time_str(self) -> str:
+        """Retorna a hora de término da sessão como string."""
+        return self.end_time.strftime("%Y-%m-%d %H:%M:%S")
