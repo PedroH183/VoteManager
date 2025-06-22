@@ -29,7 +29,7 @@ async def open_session(
 
     domain_session = DomainSession(
         topic_id=topic_id,
-        duration_minutes=payload.duration_minutes,
+        duration_minutes=payload.duration_minutes or 1,
     )
     created = await session_service.open_session(domain_session)
     return SessionResponseDTO.from_domain(created)
