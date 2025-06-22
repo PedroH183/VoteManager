@@ -15,18 +15,25 @@ class TokenData(BaseModel):
 class User(BaseModel):
     cpf: str = Field(..., title="CPF of the user")
     name: str = Field(..., title="Username of the user")
-    password: str = Field(..., title="Password of the user")
-
-    @classmethod
-    def from_domain(cls, user: DomainUser) -> "User":
-        return cls(
-            cpf=user.cpf,
-            name=user.name,
-            password=user.password
-        )
 
     class Config:
         from_attributes = True
+
+
+class UserCreate(User):
+    password: str = Field(..., title="Password of the user", min_length=6)
+
+
+class UserResponse(User):
+    id: Optional[int] = Field(None, title="ID of the user")
+
+    @classmethod
+    def from_domain(cls, user) -> "UserResponse":
+        return cls(
+            id=user.id or None,
+            cpf=user.cpf,
+            name=user.name,
+        )
 
 
 class UserInDB(User):
