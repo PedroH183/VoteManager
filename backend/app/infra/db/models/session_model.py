@@ -17,10 +17,15 @@ class Session(Base):
     start_time: Mapped[datetime] = mapped_column(
         DateTime, default=datetime.now, nullable=False
     )
+
     topic_id: Mapped[int] = mapped_column(
         ForeignKey("topics.id", ondelete="cascade"), nullable=False
     )
     topic = relationship("Topic", back_populates="session")
+    
+    votes = relationship(
+        "Vote", back_populates="session", cascade="all, delete-orphan"
+    )
 
     def to_dict(self) -> dict:
         """This method converts the ORM model to a dictionary representation.
@@ -44,7 +49,7 @@ class Session(Base):
         """
         return DomainSession(
             id_=self.id,
-            start_time=self.start_time,
             topic_id=self.topic_id,
+            start_time=self.start_time,
             duration_minutes=(self.end_time - self.start_time).total_seconds() / 60,  # type: ignore
         )

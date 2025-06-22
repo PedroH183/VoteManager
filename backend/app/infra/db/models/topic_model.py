@@ -10,7 +10,7 @@ class Topic(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     title: Mapped[str] = mapped_column(nullable=False)
 
-    session = relationship("Session", back_populates="topic")
+    session = relationship("Session", back_populates="topic", cascade="all, delete-orphan")
 
     def to_dict(self) -> dict:
         """Converts the ORM model to a dictionary representation.
