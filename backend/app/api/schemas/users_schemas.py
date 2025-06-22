@@ -1,6 +1,5 @@
 from typing import Optional
 from pydantic import BaseModel, Field
-from app.domain.entities.user_entity import User as DomainUser
 
 
 class Token(BaseModel):
