@@ -11,16 +11,17 @@ from app.api.routers.users_router import router as user_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    import app.infra.db.models.session_model # type: ignore  # noqa: F401
-    import app.infra.db.models.topic_model   # type: ignore  # noqa: F401
-    import app.infra.db.models.vote_model    # type: ignore  # noqa: F401
-    import app.infra.db.models.user_model    # type: ignore  # noqa: F401
-    
+    import app.infra.db.models.session_model  # type: ignore  # noqa: F401
+    import app.infra.db.models.topic_model  # type: ignore  # noqa: F401
+    import app.infra.db.models.vote_model  # type: ignore  # noqa: F401
+    import app.infra.db.models.user_model  # type: ignore  # noqa: F401
+
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     yield
 
     await engine.dispose()
+
 
 app = FastAPI(
     lifespan=lifespan,
