@@ -1,0 +1,4 @@
+Validações no Pydantic (VoteSchemas)
+    - O ideal seria não depender de uma opção hard-coded e
+      sim um regex pattern ou algo similar para aumentar a 
+      robustez da validação.
