@@ -19,3 +19,7 @@ Talvez o Uso de uma Domain Entity não seja a melhor escolha
 Logica dentro do body do endpoint
   - Criar um Facade/Service para redução dessa logica o principal modulo 
     que sofre com isso no projeto é o modulo de autenticação e o fluxo de Votação.
+
+Amplicação da quantidade de testes
+  - Atualmente criei apenas o basico para validações dos componenetes mais críticos 
+    para o funcionamento da aplicação
