@@ -51,8 +51,9 @@ cd VoteManager/backend
 #### Using Docker
 
 ```bash
-# Build and run with Docker
-docker compose up 
+# Build and run with Docker. Copy the sample env file to override defaults
+cp .env.example .env # optional
+docker compose up
 ```
 
 The API will be available at `http://localhost:8000`
@@ -70,10 +71,10 @@ Once the server is running, you can access:
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `POSTGRES_DB` | Database name | - |
-| `POSTGRES_HOST` | Database host | - |
-| `POSTGRES_USER` | Database user | - |
-| `POSTGRES_PASSWORD` | Database password | - |
+| `POSTGRES_DB` | Database name | `votemanager` |
+| `POSTGRES_HOST` | Database host | `db` |
+| `POSTGRES_USER` | Database user | `votemanager` |
+| `POSTGRES_PASSWORD` | Database password | `changeme` |
 | `SECRET_KEY` | JWT secret key | - |
 | `ALGORITHM` | JWT algorithm | HS256 |
 | `ACCESS_TOKEN_EXPIRE_MINUTES` | Token expiration | 30 |
