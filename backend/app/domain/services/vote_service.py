@@ -31,3 +31,8 @@ class VoteService:
             DomainVote | None: The vote entity if found, otherwise None.
         """
         return await self._repo.get_by_user_and_session(user_id, session_id)
+
+    async def count_by_session(self, session_id: int) -> dict[str, int]:
+        """Count votes grouped by option for a given session."""
+
+        return await self._repo.count_by_session(session_id)

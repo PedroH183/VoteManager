@@ -16,6 +16,18 @@ class SessionRepository(Protocol):
         """
         ...
 
+    async def get_by_topic_id(self, topic_id: int) -> DomainSession:
+        """Retrieve a session by the associated topic ID.
+
+        Args:
+            topic_id (int): The ID of the topic linked to the session.
+
+        Returns:
+            DomainSession: The session entity if found, otherwise raises
+                ``ValueError``.
+        """
+        ...
+
     async def get_by_id(self, session_id: int) -> DomainSession:
         """This method retrieves a session by its ID.
 
