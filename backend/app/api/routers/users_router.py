@@ -16,7 +16,15 @@ router = APIRouter(prefix="", tags=["Users"])
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 
-@router.post("/login", response_model=None)
+@router.post(
+    "/login",
+    summary="Authenticate user and issue token",
+    description="Authenticate a user using CPF (username) and password, returning a JWT access token for subsequent requests.",
+    response_model=Token,
+    responses={
+        401: {"description": "Incorrect username or password"}
+    }
+)
 async def login_for_access_token(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
     user_service: UserService = Depends(get_user_service),
@@ -39,7 +47,16 @@ async def login_for_access_token(
     return Token(access_token=access_token, token_type="bearer")
 
 
-@router.post("/register", response_model=User, status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/register",
+    summary="Register new user",
+    description="Register a new user in the system. Returns the created user (without password).",
+    response_model=User,
+    status_code=status.HTTP_201_CREATED,
+    responses={
+        400: {"description": "User with this CPF already exists"}
+    }
+)
 async def register_user(
     user: User,
     user_service: UserService = Depends(get_user_service),
@@ -62,7 +79,15 @@ async def register_user(
     return created_user
 
 
-@router.get("/users/me/", response_model=User)
+@router.get(
+    "/users/me",
+    summary="Get current authenticated user",
+    description="Retrieve the profile of the currently authenticated user.",
+    response_model=User,
+    responses={
+        401: {"description": "Unauthorized: invalid or missing token"}
+    }
+)
 async def read_users_me(
     current_user: User = Depends(get_current_user),
 ):
