@@ -24,3 +24,14 @@ class UserRepository(Protocol):
             Optional[DomainUser]: The user entity if found, otherwise None.
         """
         ...
+
+    async def get_by_id(self, user_id: int) -> Optional[DomainUser]:
+        """This method retrieves a user by its ID.
+
+        Args:
+            user_id (str): The ID of the user to retrieve.
+
+        Returns:
+            Optional[DomainUser]: The user entity if found, otherwise None.
+        """
+        ...
