@@ -9,6 +9,7 @@ from fastapi.security import OAuth2PasswordBearer
 
 from app.infra.db.database import get_db
 from app.domain.services.user_service import UserService
+from app.domain.entities.user_entity import User as UserDomain
 from app.infra.db.repositories.user_repository_impl import UserRepositoryImpl
 
 
@@ -24,7 +25,7 @@ async def get_user_service(db: AsyncSession = Depends(get_db)) -> UserService:
 async def get_current_user(
     token: Annotated[str, Depends(oauth2_scheme)],
     user_service: UserService = Depends(get_user_service),
-):
+) -> UserDomain | None:
     """This function retrieves the jwt token from the request and decodes
     it to get the user information.
     """
