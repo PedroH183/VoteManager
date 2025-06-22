@@ -3,7 +3,7 @@ Validações no Pydantic (VoteSchemas)
     sim um regex pattern ou algo similar para aumentar a 
     robustez da validação.
 
-Criação de Try e Except para ValuesErros
+Criação de handlers de Exceptions para ValuesErros
   - Poderia haver uma dependencia que verifica se o item 
     já existe no banco de dados, isso poderia ajudar a limpar 
     o body do endpoint
@@ -14,6 +14,5 @@ Talvez o Uso de uma Domain Entity não seja a melhor escolha
     camadas padronizado
 
 Logica dentro do body do endpoint
-  - Criar um Facade ou uma estrutura de adapter para redução dessa logica 
-    o principal modulo que sofre com isso no projeto é o modulo de autenticação
-    e o fluxo de Votação.
+  - Criar um Facade/Service para redução dessa logica o principal modulo 
+    que sofre com isso no projeto é o modulo de autenticação e o fluxo de Votação.
