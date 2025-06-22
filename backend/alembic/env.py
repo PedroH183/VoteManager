@@ -17,6 +17,8 @@ fileConfig(config.config_file_name)
 from app.infra.db.models.topic_model import Topic
 from app.infra.db.models.session_model import Session
 from app.infra.db.models.vote_model import Vote
+from app.infra.db.models.user_model import User
+
 
 target_metadata = Base.metadata
 
