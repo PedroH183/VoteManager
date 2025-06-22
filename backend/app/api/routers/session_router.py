@@ -4,7 +4,7 @@ from app.api.deps_auth import get_current_user
 from app.domain.services.session_service import SessionService
 from app.api.schemas.session_schemas import SessionCreateDTO, SessionResponseDTO
 from app.domain.entities.session_entity import Session as DomainSession
-from app.api.deps import LOGGER, get_session_service, get_topic_service
+from app.api.deps import get_session_service, get_topic_service
 from app.domain.services.topic_service import TopicService
 
 
