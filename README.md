@@ -2,6 +2,8 @@
 
 A modern full-stack voting session management system built with React + TypeScript frontend and FastAPI backend. This application allows users to create voting topics, manage voting sessions, and cast votes in a secure and organized manner.
 
+![alt text](image.png)
+
 ### Backend (FastAPI)
 Follows Clean Architecture principles with clear separation of concerns:
 
