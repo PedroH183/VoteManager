@@ -24,7 +24,9 @@ const initialState: SessionsState = {
 export const openSession = createAsyncThunk(
   'sessions/open',
   async (data: { topicId: number; minutes?: number }) => {
-    const res = await api.post('/sessions', data);
+
+    const payload = {'duration_minutes': data.minutes};
+    const res = await api.post(`/topics/${data.topicId}/session`, payload);
     return res.data as Session;
   }
 );
