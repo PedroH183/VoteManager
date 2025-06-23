@@ -24,27 +24,43 @@ export default function Sessions() {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <h1 className="text-xl font-bold">Sessão</h1>
-      <form onSubmit={handleSubmit} className="space-y-2">
-        <select value={topicId} onChange={(e) => setTopicId(Number(e.target.value))} className="border p-2">
-          <option value={0}>Selecione um tópico</option>
-          {topics.map((t) => (
-            <option key={t.id} value={t.id}>{t.title}</option>
-          ))}
-        </select>
-        <input type="number" value={minutes} onChange={(e) => setMinutes(Number(e.target.value))} className="border p-2" />
-        <button type="submit" className="bg-blue-500 text-white px-3 py-2 rounded">Abrir Sessão</button>
-      </form>
+      <div className="p-6 bg-white rounded shadow">
+        <form onSubmit={handleSubmit} className="flex flex-col md:flex-row md:items-end md:space-x-2 space-y-2 md:space-y-0">
+          <select
+            value={topicId}
+            onChange={(e) => setTopicId(Number(e.target.value))}
+            className="border p-2 rounded flex-grow"
+          >
+            <option value={0}>Selecione um tópico</option>
+            {topics.map((t) => (
+              <option key={t.id} value={t.id}>{t.title}</option>
+            ))}
+          </select>
+          <input
+            type="number"
+            value={minutes}
+            onChange={(e) => setMinutes(Number(e.target.value))}
+            className="border p-2 rounded w-24"
+          />
+          <button
+            type="submit"
+            className="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600"
+          >
+            Abrir Sessão
+          </button>
+        </form>
+      </div>
 
-      <table className="min-w-full divide-y divide-gray-200">
+      <table className="min-w-full divide-y divide-gray-200 bg-white rounded shadow">
         <thead>
           <tr>
-            <th className="px-4 py-2text-center text-xs font-medium text-gray-900 uppercase tracking-wider">ID</th>
-            <th className="px-4 py-2text-center text-xs font-medium text-gray-900 uppercase tracking-wider">Tópico</th>
-            <th className="px-4 py-2text-center text-xs font-medium text-gray-900 uppercase tracking-wider">Início</th>
-            <th className="px-4 py-2text-center text-xs font-medium text-gray-900 uppercase tracking-wider">Fim</th>
-            <th className="px-4 py-2text-center text-xs font-medium text-gray-900 uppercase tracking-wider">Ações</th>
+            <th className="px-4 py-2 text-center text-xs font-medium text-gray-900 uppercase tracking-wider">ID</th>
+            <th className="px-4 py-2 text-center text-xs font-medium text-gray-900 uppercase tracking-wider">Tópico</th>
+            <th className="px-4 py-2 text-center text-xs font-medium text-gray-900 uppercase tracking-wider">Início</th>
+            <th className="px-4 py-2 text-center text-xs font-medium text-gray-900 uppercase tracking-wider">Fim</th>
+            <th className="px-4 py-2 text-center text-xs font-medium text-gray-900 uppercase tracking-wider">Ações</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200">
