@@ -16,6 +16,10 @@ class SessionRepository(Protocol):
         """
         ...
 
+    async def list(self) -> list[DomainSession]:
+        """Retrieve all sessions stored in the repository."""
+        ...
+
     async def get_by_topic_id(self, topic_id: int) -> DomainSession:
         """Retrieve a session by the associated topic ID.
 

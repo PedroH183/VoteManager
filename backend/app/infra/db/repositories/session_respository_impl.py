@@ -31,6 +31,13 @@ class SessionRepositoryImpl(SessionRepository):
 
         return orm_obj.to_domain()
 
+    async def list(self) -> list[DomainSession]:
+        """Return all sessions stored in the database."""
+
+        result = await self._db.execute(select(ORMSession))
+        orm_sessions = result.scalars().all()
+        return [s.to_domain() for s in orm_sessions]
+
     async def get_by_id(self, session_id: int) -> DomainSession:
         """This method retrieves a session by its ID.
 

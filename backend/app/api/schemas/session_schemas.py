@@ -21,6 +21,7 @@ class SessionResponseDTO(BaseModel):
     start_time: str = Field(..., title="Session Start Time")
 
     duration_minutes: int = Field(..., title="Duration in Minutes")
+    is_open: bool = Field(..., title="Is session open")
 
     @classmethod
     def from_domain(cls, session: DomainSession) -> "SessionResponseDTO":
@@ -30,6 +31,7 @@ class SessionResponseDTO(BaseModel):
             end_time=session.end_time_str,
             start_time=session.start_time_str,
             duration_minutes=session.duration_time,
+            is_open=session.is_open,
         )
 
     class Config:

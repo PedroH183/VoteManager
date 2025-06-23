@@ -24,6 +24,11 @@ class SessionService:
         )
         return await self._repo.create(domain_sess)
 
+    async def list(self) -> list[DomainSession]:
+        """Return all sessions."""
+
+        return await self._repo.list()
+
     async def get_by_id(self, session_id: int) -> DomainSession:
         """This method retrieves a session by its ID.
 
