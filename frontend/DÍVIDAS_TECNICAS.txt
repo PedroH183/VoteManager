@@ -1,11 +1,15 @@
 UI Interface Legada
-    - Poderia ter utilizado melhor os componentes 
-      para a criação de views
+  - Poderia ter utilizado melhor os componentes 
+    para a criação de views
 
 Tratamentos de exceções ocorridas 
-    - Implmentar feedbacks de erros ocorridos no backend para 
-      deixar o cliente siente da situação do erro ocorrido
+  - Implmentar feedbacks de erros ocorridos no backend para 
+    deixar o cliente siente da situação do erro ocorrido
 
-Bug no reload da pagina
-    - Ao realizar o refresh da pagina o Nginx está mostrando o 
-      erro 404 not found
+Documentação das funções do projeto
+  - Adicionar Documentação em funções mais complexas de entendimento 
+    exemplo : os slices, fluxo de tratamento de jwt
+
+Expiração do JWT Token 
+  - Implementar uma lógica para atualizar o jwt para impedir do cliente
+    ser deslogado ao final dos 30 minutos 
