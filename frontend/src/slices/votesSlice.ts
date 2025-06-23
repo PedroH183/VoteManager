@@ -13,8 +13,11 @@ const initialState: VoteState = {
 
 export const submitVote = createAsyncThunk(
   'votes/submit',
-  async (data: { sessionId: number; value: boolean }) => {
-    const res = await api.post(`/sessions/${data.sessionId}/vote`, { value: data.value });
+  async (data: { sessionId: number; topicId: number; option: string }) => {
+    const res = await api.post(`/topics/${data.topicId}/vote`, {
+      session_id: data.sessionId,
+      option: data.option,
+    });
     return res.data;
   }
 );

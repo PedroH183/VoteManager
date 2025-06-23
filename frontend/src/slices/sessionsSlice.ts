@@ -3,20 +3,21 @@ import api from '../utils/api';
 
 interface Session {
   id: number;
-  topicId: number;
-  active: boolean;
-  yes: number;
-  no: number;
+  topic_id: number;
+  start_time: string;
+  end_time: string;
+  duration_minutes: number;
+  is_open: boolean;
 }
 
 interface SessionsState {
-  current: Session | null;
+  items: Session[];
   loading: boolean;
   error: string | null;
 }
 
 const initialState: SessionsState = {
-  current: null,
+  items: [],
   loading: false,
   error: null,
 };
@@ -31,9 +32,9 @@ export const openSession = createAsyncThunk(
   }
 );
 
-export const fetchCurrentSession = createAsyncThunk('sessions/current', async () => {
-  const res = await api.get('/sessions/current');
-  return res.data as Session;
+export const fetchSessions = createAsyncThunk('sessions/list', async () => {
+  const res = await api.get('/sessions');
+  return res.data as Session[];
 });
 
 const sessionsSlice = createSlice({
@@ -43,10 +44,10 @@ const sessionsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(openSession.fulfilled, (state, action) => {
-        state.current = action.payload;
+        state.items.push(action.payload);
       })
-      .addCase(fetchCurrentSession.fulfilled, (state, action) => {
-        state.current = action.payload;
+      .addCase(fetchSessions.fulfilled, (state, action) => {
+        state.items = action.payload;
       });
   },
 });
