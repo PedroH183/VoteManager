@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import api from '../utils/api';
+import jwtDecode from 'jwt-decode';
 
 interface AuthState {
   token: string | null;
@@ -9,7 +10,14 @@ interface AuthState {
 
 const getTokenFromStorage = (): string | null => {
   try {
-    return localStorage.getItem('token');
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+    const { exp } = jwtDecode<{ exp: number }>(token);
+    if (Date.now() >= exp * 1000) {
+      localStorage.removeItem('token');
+      return null;
+    }
+    return token;
   } catch {
     return null;
   }
@@ -80,6 +88,9 @@ const authSlice = createSlice({
   reducers: {
     logout(state) {
       state.token = null;
+      try {
+        localStorage.removeItem('token');
+      } catch {}
     },
   },
   extraReducers: (builder) => {
