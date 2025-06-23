@@ -9,7 +9,7 @@ export default function Layout() {
           <Link to="/" className="hover:underline">Home</Link>
           <Link to="/topics" className="hover:underline">Tópicos</Link>
           <Link to="/sessions" className="hover:underline">Sessões</Link>
-          <Link to="/vote" className="hover:underline">Votar</Link>
+          <Link to="/results" className="hover:underline">Resultados</Link>
         </nav>
       </aside>
       <main className="flex-1 p-6 bg-gray-50">

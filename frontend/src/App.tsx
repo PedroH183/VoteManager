@@ -3,7 +3,7 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Topics from './pages/Topics';
 import Sessions from './pages/Sessions';
-import Vote from './pages/Vote';
+import Results from './pages/Results';
 import ProtectedRoute from './components/ProtectedRoute';
 import Layout from './components/Layout';
 import Register from './pages/Register';
@@ -24,7 +24,7 @@ function App() {
         <Route index element={<Dashboard />} />
         <Route path="topics" element={<Topics />} />
         <Route path="sessions" element={<Sessions />} />
-        <Route path="vote" element={<Vote />} />
+        <Route path="results" element={<Results />} />
       </Route>
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
