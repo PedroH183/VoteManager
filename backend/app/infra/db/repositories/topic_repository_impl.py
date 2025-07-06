@@ -1,7 +1,7 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.infra.db.models.topic_model import Topic as ORMTopic
+from app.domain.models.topic_model import Topic as ORMTopic
 from app.domain.entities.topics_entity import Topic as DomainTopic
 from app.application.protocols.topic_repository import TopicRepository
 

@@ -1,7 +1,7 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.infra.db.models.vote_model import Vote as ORMVote
+from app.domain.models.vote_model import Vote as ORMVote
 from app.domain.entities.vote_entity import Vote as DomainVote
 from app.application.protocols.vote_repository import VoteRepository
 
