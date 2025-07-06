@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.infra.db.database import get_db
 
-from app.infra.db.repositories.session_respository_impl import SessionRepositoryImpl
+from backend.app.infra.db.repositories.session_repository_impl import SessionRepositoryImpl
 from app.infra.db.repositories.vote_repository_impl import VoteRepositoryImpl
 from app.infra.db.repositories.topic_repository_impl import TopicRepositoryImpl
 

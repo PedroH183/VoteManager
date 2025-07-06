@@ -1,7 +1,7 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.infra.db.models.session_model import Session as ORMSession
+from app.domain.models.session_model import Session as ORMSession
 from app.domain.entities.session_entity import Session as DomainSession
 from app.application.protocols.session_repository import SessionRepository
 

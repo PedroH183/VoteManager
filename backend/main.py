@@ -7,17 +7,13 @@ from app.api.routers.session_router import router as session_router
 from app.api.routers.topic_router import router as topic_router
 from app.api.routers.vote_router import router as vote_router
 from app.api.routers.users_router import router as user_router
+from app.infra.db.database import init_db
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    import app.infra.db.models.session_model  # type: ignore  # noqa: F401
-    import app.infra.db.models.topic_model  # type: ignore  # noqa: F401
-    import app.infra.db.models.vote_model  # type: ignore  # noqa: F401
-    import app.infra.db.models.user_model  # type: ignore  # noqa: F401
 
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
+    await init_db()
     yield
 
     await engine.dispose()

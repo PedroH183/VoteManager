@@ -14,10 +14,10 @@ fileConfig(config.config_file_name)
 
 # importa aqui seus models, para registrar metadata
 # e permitir autogenerate encontrar todas as tabelas
-from app.infra.db.models.topic_model import Topic
-from app.infra.db.models.session_model import Session
-from app.infra.db.models.vote_model import Vote
-from app.infra.db.models.user_model import User
+from app.domain.models.topic_model import Topic
+from app.domain.models.session_model import Session
+from app.domain.models.vote_model import Vote
+from app.domain.models.user_model import User
 
 
 target_metadata = Base.metadata

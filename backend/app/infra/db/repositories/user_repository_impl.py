@@ -2,7 +2,7 @@ from typing import Optional
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.infra.db.models.user_model import User as ORMUser
+from app.domain.models.user_model import User as ORMUser
 from app.domain.entities.user_entity import User as DomainUser
 from app.application.protocols.user_repository import UserRepository
 
